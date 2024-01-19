@@ -24,15 +24,23 @@ export default class App extends Component {
       };
     });
   };
-  handleFilter = ({ target }) => {
+  handleFilter = value => {
     this.setState({
-      filter: target.value,
+      filter: value,
     });
   };
   handleDeleteContact = id => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(item => item.id !== id),
     }));
+  };
+  filterContacts = () => {
+    return this.state.contacts.filter(item =>
+      item.name
+        .trim()
+        .toLowerCase()
+        .includes(this.state.filter.trim().toLowerCase())
+    );
   };
 
   render() {
@@ -46,8 +54,7 @@ export default class App extends Component {
         <h2>Contacts</h2>
         <Filter onFilter={this.handleFilter} />
         <ContactsList
-          filter={this.state.filter}
-          contacts={this.state.contacts}
+          contacts={this.filterContacts()}
           onDelete={this.handleDeleteContact}
         />
       </div>
