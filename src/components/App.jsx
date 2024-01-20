@@ -35,12 +35,15 @@ export default class App extends Component {
     }));
   };
   filterContacts = () => {
-    return this.state.contacts.filter(item =>
-      item.name
-        .trim()
-        .toLowerCase()
-        .includes(this.state.filter.trim().toLowerCase())
-    );
+    if (this.state.filter !== '') {
+      return this.state.contacts.filter(item =>
+        item.name
+          .trim()
+          .toLowerCase()
+          .includes(this.state.filter.trim().toLowerCase())
+      );
+    }
+    return this.state.contacts;
   };
 
   render() {
@@ -52,7 +55,7 @@ export default class App extends Component {
           onSubmit={this.handleSubmit}
         />
         <h2>Contacts</h2>
-        <Filter onFilter={this.handleFilter} />
+        <Filter onFilter={this.handleFilter} value={this.state.filter} />
         <ContactsList
           contacts={this.filterContacts()}
           onDelete={this.handleDeleteContact}
